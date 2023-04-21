@@ -4,14 +4,16 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { client } from './utils/apollo';
 import { ROUTE_CONFIG } from './routes';
 import Page404 from './containers/Page404';
+import UserInfo from './components/UserInfo';
 
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ApolloProvider client={client}>
-    <BrowserRouter>
-      <Routes>
-        {
+    <UserInfo>
+      <BrowserRouter>
+        <Routes>
+          {
         ROUTE_CONFIG.map((item) => (
           <Route
             path={item.path}
@@ -20,8 +22,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           />
         ))
       }
-        <Route path="*" element={<Page404 />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="*" element={<Page404 />} />
+        </Routes>
+      </BrowserRouter>
+
+    </UserInfo>
+
   </ApolloProvider>,
 );
