@@ -1,17 +1,17 @@
 import ReactDOM from 'react-dom/client';
 import { ApolloProvider } from '@apollo/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { client } from './utils/apollo';
-import { ROUTE_CONFIG } from './routes';
-import Page404 from './containers/Page404';
-import UserInfo from './components/UserInfo';
+import UserInfo from '@/components/UserInfo';
+import { client } from '@/utils/apollo';
+import { ROUTE_CONFIG } from '@/routes';
+import Page404 from '@/containers/Page404';
 
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ApolloProvider client={client}>
-    <UserInfo>
-      <BrowserRouter>
+    <BrowserRouter>
+      <UserInfo>
         <Routes>
           {
         ROUTE_CONFIG.map((item) => (
@@ -24,9 +24,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       }
           <Route path="*" element={<Page404 />} />
         </Routes>
-      </BrowserRouter>
+      </UserInfo>
 
-    </UserInfo>
+    </BrowserRouter>
 
   </ApolloProvider>,
 );
