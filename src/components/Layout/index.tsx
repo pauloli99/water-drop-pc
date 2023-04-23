@@ -3,7 +3,7 @@ import { AUTH_TOKEN } from '@/utils/constants';
 import { MenuDataItem, PageContainer, ProLayout } from '@ant-design/pro-components';
 import { Link, useNavigate, useOutlet } from 'react-router-dom';
 
-import { ROUTE_CONFIG } from '@/routes';
+import { routes } from '@/routes/menus';
 import style from './index.module.less';
 
 const menuItemRender = (item: MenuDataItem, dom: React.ReactNode) => <Link to={item.path || '/'}>{dom}</Link>;
@@ -35,7 +35,7 @@ const Layout = () => {
       onMenuHeaderClick={() => nav('/')}
       route={{
         path: '/',
-        routes: ROUTE_CONFIG,
+        routes,
       }}
       menuItemRender={menuItemRender}
     >
