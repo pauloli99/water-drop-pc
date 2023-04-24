@@ -1,6 +1,6 @@
 import Home from '@/containers/Home';
-import Page404 from '@/containers/Page404';
 import My from '@/containers/My';
+import Page404 from '@/containers/Page404';
 import { ROUTE_KEY } from './menus';
 
 export const ROUTE_COMPONENT = {

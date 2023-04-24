@@ -11,13 +11,13 @@ import {
 import {
   message, Tabs,
 } from 'antd';
-import { useMutation } from '@apollo/client';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-
-import { LOGIN, SEND_CODE_MSG } from '@/graphql/auth';
+import { useMutation } from '@apollo/client';
 import { AUTH_TOKEN } from '@/utils/constants';
+import { LOGIN, SEND_CODE_MSG } from '@/graphql/auth';
 
 import { useTitle } from '@/hooks';
+import { useUserContext } from '@/hooks/userHooks';
 import styles from './index.module.less';
 
 interface IValue {
@@ -30,23 +30,23 @@ export default () => {
   const [run] = useMutation(SEND_CODE_MSG);
   const [login] = useMutation(LOGIN);
   const [params] = useSearchParams();
+  const { store } = useUserContext();
   const nav = useNavigate();
-
-  useTitle('登陆');
+  useTitle('登录');
 
   const loginHandler = async (values: IValue) => {
     const res = await login({
       variables: values,
     });
     if (res.data.login.code === 200) {
+      store.refetchHandler();
       if (values.autoLogin) {
         sessionStorage.setItem(AUTH_TOKEN, '');
         localStorage.setItem(AUTH_TOKEN, res.data.login.data);
       } else {
-        sessionStorage.setItem(AUTH_TOKEN, res.data.login.data);
         localStorage.setItem(AUTH_TOKEN, '');
+        sessionStorage.setItem(AUTH_TOKEN, res.data.login.data);
       }
-
       message.success(res.data.login.message);
       nav(params.get('orgUrl') || '/');
       return;
@@ -57,9 +57,7 @@ export default () => {
   return (
     <div className={styles.container}>
       <LoginFormPage
-        initialValues={{
-          tel: '17347898673',
-        }}
+        initialValues={{ tel: '17347898673' }}
         onFinish={loginHandler}
         backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
         logo="http://water-drop-assets.oss-cn-hangzhou.aliyuncs.com/images/henglogo.png"
@@ -68,7 +66,7 @@ export default () => {
           centered
           items={[{
             key: 'phone',
-            label: '手机号登陆',
+            label: '手机号登录',
           }]}
         />
         <>

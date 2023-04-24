@@ -1,10 +1,10 @@
 import { HomeOutlined } from '@ant-design/icons';
 
 interface IRoute {
-  name: string;
   path: string;
+  name: string;
   icon?: React.ReactNode;
-  hideInMenu?: boolean
+  hideInMenu?: boolean;
 }
 
 export const ROUTE_KEY = {
@@ -22,6 +22,7 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
   [ROUTE_KEY.MY]: {
     path: 'my',
     name: '个人信息',
+    hideInMenu: true,
     icon: <HomeOutlined />,
   },
   [ROUTE_KEY.PAGE_404]:
@@ -32,8 +33,6 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
   },
 };
 
-export const routes = Object.keys(ROUTE_CONFIG).map((key) => (
-  { ...ROUTE_CONFIG[key], key }
-));
+export const routes = Object.keys(ROUTE_CONFIG).map((key) => ({ ...ROUTE_CONFIG[key], key }));
 
-export const getRouteByKey = (key:string) => ROUTE_CONFIG[key];
+export const getRouteByKey = (key: string) => ROUTE_CONFIG[key];

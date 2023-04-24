@@ -5,7 +5,7 @@ import { Spin } from 'antd';
 /**
 * 获取用户信息组件
 */
-const UserInfo = ({ children }:IPropChild) => {
+const UserInfo = ({ children }: IPropChild) => {
   const { loading } = useGetUser();
   return (
     <Spin spinning={loading}>
