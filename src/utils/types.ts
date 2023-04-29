@@ -1,3 +1,5 @@
+import { IOrganization } from '@/utils/types';
+
 export interface IPropChild {
   children: React.ReactNode;
 }

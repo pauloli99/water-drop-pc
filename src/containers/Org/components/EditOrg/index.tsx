@@ -6,15 +6,19 @@ import UploadImage from '@/components/OSSImageUpload';
 import { useOrganization, useEditInfo } from '@/services/org';
 import { useMemo } from 'react';
 import { IOrganization } from '@/utils/types';
-
 import style from './index.module.less';
 
 interface IProp {
-  id:string;
-  onClose: () => void
+  id: string;
+  onClose: () => void;
 }
-
-const EditOrg = ({ id, onClose }:IProp) => {
+/**
+*
+*/
+const EditOrg = ({
+  id,
+  onClose,
+}: IProp) => {
   const [form] = Form.useForm();
 
   const { data, loading: queryLoading } = useOrganization(id);
@@ -34,7 +38,6 @@ const EditOrg = ({ id, onClose }:IProp) => {
         orgRoomImg: values?.orgRoomImg?.map((item: UploadFile) => ({ url: item.url })),
         orgOtherImg: values?.orgOtherImg?.map((item: UploadFile) => ({ url: item.url })),
       } as IOrganization;
-
       edit(id, formData);
     }
   };
@@ -48,9 +51,9 @@ const EditOrg = ({ id, onClose }:IProp) => {
     businessLicense: [{ url: data.businessLicense }],
   } : {}), [data]);
 
-  // if (queryLoading) {
-  //   return <Spin />;
-  // }
+  if (queryLoading) {
+    return <Spin />;
+  }
 
   return (
     <Drawer
@@ -68,10 +71,9 @@ const EditOrg = ({ id, onClose }:IProp) => {
           保存
         </Button>
       )}
-
     >
       <Form form={form} initialValues={initValue} layout="vertical">
-        <Row>
+        <Row className={style.row} gutter={20}>
           <Col span={10}>
             <Form.Item
               style={{ width: '100%' }}
@@ -79,7 +81,10 @@ const EditOrg = ({ id, onClose }:IProp) => {
               name="logo"
               rules={[{ required: true }]}
             >
-              <UploadImage maxCount={1} label="替换 Logo" />
+              <UploadImage
+                maxCount={1}
+                label="替换 Logo"
+              />
             </Form.Item>
           </Col>
           <Col span={14}>

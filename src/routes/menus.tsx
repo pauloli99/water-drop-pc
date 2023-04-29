@@ -29,7 +29,6 @@ export const ROUTE_CONFIG: Record<string, IRoute> = {
   [ROUTE_KEY.ORG]: {
     path: 'org',
     name: '门店管理',
-    hideInMenu: false,
     icon: <ShopOutlined />,
   },
   [ROUTE_KEY.PAGE_404]:
