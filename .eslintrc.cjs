@@ -15,7 +15,10 @@ module.exports = {
     "no-unused-vars": 0,
     "@typescript-eslint/no-unused-vars": 1,
     "jsx-a11y/control-has-associated-label": 0,
-    "import/no-extraneous-dependencies": 0
+    "import/no-extraneous-dependencies": 0,
+    'jsx-a11y/anchor-is-valid': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/no-static-element-interactions': 0
   },
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {

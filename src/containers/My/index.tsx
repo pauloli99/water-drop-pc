@@ -25,9 +25,9 @@ const My = () => {
       tel: store.tel,
       name: store.name,
       desc: store.desc,
-      avatar: {
+      avatar: [{
         url: store.avatar,
-      },
+      }],
     });
   }, [store]);
   return (
@@ -49,7 +49,7 @@ const My = () => {
               params: {
                 name: values.name,
                 desc: values.desc,
-                avatar: values.avatar?.url || '',
+                avatar: values.avatar[0]?.url || '',
               },
             },
           });
@@ -82,7 +82,7 @@ const My = () => {
           </Col>
           <Col>
             <Form.Item name="avatar">
-              <OSSImageUpload />
+              <OSSImageUpload label="头像上传" />
             </Form.Item>
           </Col>
         </Row>
