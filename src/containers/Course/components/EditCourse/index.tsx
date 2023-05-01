@@ -11,7 +11,7 @@ const { TextArea } = Input;
 interface IProps {
   id?: string;
   onClose: (isReload?: boolean) => void;
-  open: boolean
+  open: boolean;
 }
 
 /**
@@ -29,7 +29,7 @@ const EditCourse = ({
   open,
   onClose,
   id,
-}:IProps) => {
+}: IProps) => {
   const [form] = Form.useForm();
   const [edit, editLoading] = useEditInfo();
   const { getCourse, loading } = useCourse();
@@ -43,7 +43,6 @@ const EditCourse = ({
         form.resetFields();
       }
     };
-
     init();
   }, [id]);
 
@@ -64,12 +63,16 @@ const EditCourse = ({
       extra={(
         <Space>
           <Button onClick={() => onClose()}>取消</Button>
-          <Button loading={editLoading} onClick={onSubmitHandler}>提交</Button>
+          <Button loading={editLoading} onClick={onSubmitHandler} type="primary">
+            提交
+          </Button>
         </Space>
       )}
     >
       <Spin spinning={loading}>
-        <Form form={form}>
+        <Form
+          form={form}
+        >
           <Form.Item
             label="课程名称"
             name="name"

@@ -1,8 +1,8 @@
-import { COMMIT_COURSE, GET_COURSES } from '@/graphql/course';
-import { DEFAULT_PAGE_SIZE } from '@/utils/constants';
-import { TBaseCourse, TCoursesQuery } from '@/utils/types';
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { message } from 'antd';
+import { TBaseCourse, TCoursesQuery } from '@/utils/types';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
+import { DEFAULT_PAGE_SIZE } from '@/utils/constants';
+import { COMMIT_COURSE, GET_COURSE, GET_COURSES } from '../graphql/course';
 
 export const useCourses = (
   pageNum = 1,
@@ -18,13 +18,11 @@ export const useCourses = (
     },
   });
 
-  const refetchHandler = async (
-    params: {
-      name?: string;
-      pageSize?: number;
-      current?: number
-    },
-  ) => {
+  const refetchHandler = async (params: {
+    name?: string;
+    pageSize?: number;
+    current?: number;
+  }) => {
     const { data: res, errors } = await refetch({
       name: params.name,
       page: {
@@ -53,7 +51,7 @@ export const useCourses = (
   };
 };
 
-export const useEditInfo = (): [handleEdit:Function, loading:boolean] => {
+export const useEditInfo = (): [handleEdit: Function, loading: boolean] => {
   const [edit, { loading }] = useMutation(COMMIT_COURSE);
 
   const handleEdit = async (
@@ -67,7 +65,6 @@ export const useEditInfo = (): [handleEdit:Function, loading:boolean] => {
         params,
       },
     });
-
     if (res.data.commitCourseInfo.code === 200) {
       message.success(res.data.commitCourseInfo.message);
       callback(true);
@@ -80,9 +77,9 @@ export const useEditInfo = (): [handleEdit:Function, loading:boolean] => {
 };
 
 export const useCourse = () => {
-  const [get, { loading }] = useLazyQuery(GET_COURSES);
+  const [get, { loading }] = useLazyQuery(GET_COURSE);
 
-  const getCourse = async (id:string) => {
+  const getCourse = async (id: string) => {
     const res = await get({
       variables: {
         id,
@@ -92,7 +89,5 @@ export const useCourse = () => {
     return res.data.getCourseInfo.data;
   };
 
-  return {
-    getCourse, loading,
-  };
+  return { getCourse, loading };
 };
