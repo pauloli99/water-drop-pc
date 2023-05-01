@@ -1,13 +1,14 @@
-import { GET_COURSES } from '@/graphql/course';
+import { COMMIT_COURSE, GET_COURSES } from '@/graphql/course';
 import { DEFAULT_PAGE_SIZE } from '@/utils/constants';
-import { TCourseQuery } from '@/utils/types';
-import { useQuery } from '@apollo/client';
+import { TBaseCourse, TCoursesQuery } from '@/utils/types';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { message } from 'antd';
 
 export const useCourses = (
   pageNum = 1,
   pageSize = DEFAULT_PAGE_SIZE,
 ) => {
-  const { loading, data, refetch } = useQuery<TCourseQuery>(GET_COURSES, {
+  const { loading, data, refetch } = useQuery<TCoursesQuery>(GET_COURSES, {
     skip: true,
     variables: {
       page: {
@@ -27,8 +28,8 @@ export const useCourses = (
     const { data: res, errors } = await refetch({
       name: params.name,
       page: {
-        pageNum: params.current,
-        pageSize: params.pageSize,
+        pageNum: params.current || 1,
+        pageSize: params.pageSize || DEFAULT_PAGE_SIZE,
       },
     });
 
@@ -49,5 +50,49 @@ export const useCourses = (
     refetch: refetchHandler,
     page: data?.getCourses.page,
     data: data?.getCourses.data,
+  };
+};
+
+export const useEditInfo = (): [handleEdit:Function, loading:boolean] => {
+  const [edit, { loading }] = useMutation(COMMIT_COURSE);
+
+  const handleEdit = async (
+    id: number,
+    params: TBaseCourse,
+    callback: (isReload: boolean) => void,
+  ) => {
+    const res = await edit({
+      variables: {
+        id,
+        params,
+      },
+    });
+
+    if (res.data.commitCourseInfo.code === 200) {
+      message.success(res.data.commitCourseInfo.message);
+      callback(true);
+      return;
+    }
+    message.error(res.data.commitCourseInfo.message);
+  };
+
+  return [handleEdit, loading];
+};
+
+export const useCourse = () => {
+  const [get, { loading }] = useLazyQuery(GET_COURSES);
+
+  const getCourse = async (id:string) => {
+    const res = await get({
+      variables: {
+        id,
+      },
+    });
+
+    return res.data.getCourseInfo.data;
+  };
+
+  return {
+    getCourse, loading,
   };
 };

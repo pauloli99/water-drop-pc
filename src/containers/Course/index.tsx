@@ -1,21 +1,51 @@
 import { useCourses } from '@/services/course';
-import { PageContainer, ProTable } from '@ant-design/pro-components';
-import React from 'react';
+import { ActionType, PageContainer, ProTable } from '@ant-design/pro-components';
+import React, { useRef, useState } from 'react';
 import { DEFAULT_PAGE_SIZE } from '@/utils/constants';
-import { COLUMNS } from './constants';
+import { Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { getColumns } from './constants';
+import EditCourse from './components/EditCourse';
 
 const Course = () => {
+  const actionRef = useRef<ActionType>();
+  const [curId, setCurId] = useState('');
   const { refetch } = useCourses();
+  const [showInfo, setShowInfo] = useState(false);
+
+  const onClickAddHandler = (id?:string) => {
+    if (id) {
+      setCurId(id);
+    } else {
+      setCurId('');
+    }
+    setShowInfo(true);
+  };
+
+  const closeAndRefetchHandler = (isReload?:boolean) => {
+    setShowInfo(false);
+    if (isReload) {
+      actionRef.current?.reload();
+    }
+  };
 
   return (
     <PageContainer header={{ title: '当前门店下开设的课程' }}>
       <ProTable
-        columns={COLUMNS}
+        rowKey="id"
+        actionRef={actionRef}
+        columns={getColumns({
+          onEditHandler: onClickAddHandler,
+        })}
         pagination={{
           pageSize: DEFAULT_PAGE_SIZE,
         }}
+        toolBarRender={() => [
+          <Button key="add" onClick={() => onClickAddHandler()} type="primary" icon={<PlusOutlined />}>新建</Button>,
+        ]}
         request={refetch}
       />
+      <EditCourse id={curId} open={showInfo} onClose={() => closeAndRefetchHandler(true)} />
     </PageContainer>
   );
 };
