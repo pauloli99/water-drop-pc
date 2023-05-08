@@ -2,19 +2,11 @@ import { useGoTo } from '@/hooks';
 import { useUserContext } from '@/hooks/userHooks';
 import { ROUTE_KEY } from '@/routes/menus';
 import { useOrganizations } from '@/services/org';
+import { currentOrg } from '@/utils';
 import { LOCAL_CURRENT_ORG } from '@/utils/constants';
 import { Select, Space } from 'antd';
 import _ from 'lodash';
 import { useEffect } from 'react';
-
-const currentOrg = () => {
-  try {
-    const res = JSON.parse(localStorage.getItem(LOCAL_CURRENT_ORG) || '');
-    return res;
-  } catch {
-    return undefined;
-  }
-};
 
 const OrgSelect = () => {
   const { data, refetch } = useOrganizations(1, 10, true);
