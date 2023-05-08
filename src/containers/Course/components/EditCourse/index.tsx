@@ -11,7 +11,6 @@ const { TextArea } = Input;
 interface IProps {
   id?: string;
   onClose: (isReload?: boolean) => void;
-  open: boolean;
 }
 
 /**
@@ -26,7 +25,6 @@ interface IProps {
   otherInfo?: string;
 */
 const EditCourse = ({
-  open,
   onClose,
   id,
 }: IProps) => {
@@ -57,7 +55,7 @@ const EditCourse = ({
     <Drawer
       title={id ? '编辑课程' : '新建课程'}
       width={720}
-      open={open}
+      open
       onClose={() => onClose()}
       forceRender
       extra={(

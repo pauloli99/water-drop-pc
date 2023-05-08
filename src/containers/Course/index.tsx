@@ -53,8 +53,8 @@ const Course = () => {
         ]}
         request={refetch}
       />
-      <EditCourse id={curId} open={showInfo} onClose={() => closeAndRefetchHandler(true)} />
-      <OrderTime id={curId} open={showOrderTime} onClose={() => setShowOrderTime(false)} />
+      {showInfo && <EditCourse id={curId} onClose={() => closeAndRefetchHandler(true)} />}
+      {showOrderTime && <OrderTime id={curId} onClose={() => setShowOrderTime(false)} />}
     </PageContainer>
   );
 };
