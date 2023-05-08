@@ -6,12 +6,14 @@ import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { getColumns } from './constants';
 import EditCourse from './components/EditCourse';
+import OrderTime from './components/OrderTime';
 
 const Course = () => {
   const actionRef = useRef<ActionType>();
   const [curId, setCurId] = useState('');
   const { refetch } = useCourses();
   const [showInfo, setShowInfo] = useState(false);
+  const [showOrderTime, setShowOrderTime] = useState(false);
 
   const onClickAddHandler = (id?:string) => {
     if (id) {
@@ -29,6 +31,11 @@ const Course = () => {
     }
   };
 
+  const onOrderTimeHandler = (id: string) => {
+    setCurId(id);
+    setShowOrderTime(true);
+  };
+
   return (
     <PageContainer header={{ title: '当前门店下开设的课程' }}>
       <ProTable
@@ -36,6 +43,7 @@ const Course = () => {
         actionRef={actionRef}
         columns={getColumns({
           onEditHandler: onClickAddHandler,
+          onOrderTimeHandler,
         })}
         pagination={{
           pageSize: DEFAULT_PAGE_SIZE,
@@ -46,6 +54,7 @@ const Course = () => {
         request={refetch}
       />
       <EditCourse id={curId} open={showInfo} onClose={() => closeAndRefetchHandler(true)} />
+      <OrderTime id={curId} open={showOrderTime} onClose={() => setShowOrderTime(false)} />
     </PageContainer>
   );
 };
